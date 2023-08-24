@@ -29,6 +29,6 @@ macro_rules! println_prefix {
         $crate::io::__print_impl(format_args!("{}\n", format_args!($($arg)*)));
     } */
     ($prefix:expr, $($arg:tt)*) => {
-        $crate::io::__print_impl(format_args!("{}{}\n", format_args!($prefix), format_args!($($arg)*)));
+        $crate::io::__print_impl(format_args!("{}{}\n", format_args!($prefix),  format_args!($($arg)*)));
     }
 }
