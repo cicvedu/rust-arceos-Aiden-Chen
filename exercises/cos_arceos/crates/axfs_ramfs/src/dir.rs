@@ -7,6 +7,7 @@ use axfs_vfs::{VfsError, VfsResult};
 use spin::RwLock;
 
 use crate::file::FileNode;
+use::log::warn;
 
 /// The directory node in the RAM filesystem.
 ///
@@ -166,7 +167,20 @@ impl VfsNodeOps for DirNode {
     }
 
     fn rename(&self, _src: &str, _dst: &str) -> VfsResult {
-        todo!("Implement rename for ramfs!");
+        // todo!("Implement rename for ramfs!");
+        let (src, src_rest) = split_path(_src);
+        let (dst, dst_rest) = split_path(_dst);
+        let node = self
+                    .children
+                    .read()
+                    .get(src.into())
+                    .ok_or(VfsError::NotFound)?
+                    .clone();
+
+        let mut children = self.children.write();
+        children.remove(src.into()).unwrap();
+        children.insert(dst_rest.unwrap().into(), node);
+        Ok(())
     }
 
     axfs_vfs::impl_vfs_dir_default! {}

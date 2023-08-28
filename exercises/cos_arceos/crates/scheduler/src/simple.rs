@@ -82,7 +82,8 @@ impl<T> BaseScheduler for SimpleScheduler<T> {
     }
 
     fn task_tick(&mut self, _current: &Self::SchedItem) -> bool {
-        false // no reschedule
+        // false // no reschedule
+        true
     }
 
     fn set_priority(&mut self, _task: &Self::SchedItem, _prio: isize) -> bool {
